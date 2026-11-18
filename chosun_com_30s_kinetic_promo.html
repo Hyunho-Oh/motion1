@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>CHOSUN.COM — 세상을 읽는 빠른 시작</title>
+  <style>
+    :root { --red:#c7182f; --ink:#20232a; --paper:#f7f6f1; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
+      color:var(--ink); background:#e9e9e6; font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif; }
+    .wrap { width:min(100%,1120px); }
+    .screen { position:relative; overflow:hidden; aspect-ratio:16/9; padding:0 4.8%; background:linear-gradient(180deg,#f7f6f1,#f4f3ee); box-shadow:0 24px 70px #20232a25; }
+    .topline { position:absolute; inset:0 0 auto; height:7px; background:var(--red); }
+    header { height:15%; display:flex; align-items:center; gap:28px; border-bottom:2px solid #25282e; }
+    .brand { font-size:clamp(14px,2.2vw,25px); font-weight:900; letter-spacing:.02em; }
+    .sections { color:#686a70; font-size:clamp(9px,1.25vw,15px); }
+    .live { margin-left:auto; padding:10px 17px; border-radius:99px; color:#fff; background:var(--red); font-size:clamp(8px,1.1vw,13px); font-weight:700; letter-spacing:.08em; }
+    .live::before { content:""; display:inline-block; width:8px; height:8px; margin-right:9px; border-radius:50%; background:#fff; animation:blink 1s steps(2,end) infinite; }
+    @keyframes blink { 50% { opacity:.35; } }
+    .ticker { display:flex; align-items:center; gap:18px; margin-top:18px; color:#4a4d54; font-size:clamp(9px,1.3vw,16px); }
+    .tag { padding:7px 15px; color:#fff; background:var(--red); font-weight:700; letter-spacing:.07em; }
+    .copy { position:absolute; inset:31% 5% auto; text-align:center; opacity:0; transform:translateY(25px); }
+    .copy.active { animation:enter .48s cubic-bezier(.2,.8,.2,1) forwards; }
+    @keyframes enter { to { opacity:1; transform:translateY(0); } }
+    .index { margin:0 0 32px; color:var(--red); font-size:clamp(11px,1.55vw,18px); font-weight:800; letter-spacing:.2em; }
+    .index::after { content:""; display:inline-block; width:56px; height:2px; margin:0 0 5px 20px; background:var(--red); }
+    h1 { margin:0; font-size:clamp(24px,5vw,58px); line-height:1.3; letter-spacing:-.04em; }
+    .accent { width:0; height:6px; margin:24px auto 0; border-radius:4px; background:var(--red); transition:width .45s ease; }
+    .copy.active .accent { width:clamp(70px,11vw,135px); }
+    .sub { display:table; margin:26px auto 0; padding:10px 19px; opacity:0; color:var(--red); background:#fff; border-radius:8px; font-size:clamp(19px,3.5vw,41px); font-weight:800; letter-spacing:-.03em; transform:translateX(24px); }
+    .copy.active .sub { animation:subin .45s ease 1.25s forwards; }
+    @keyframes subin { to { opacity:1; transform:translateX(0); } }
+    .kicker { margin:17px 0 0; opacity:0; color:#65686f; font-size:clamp(10px,1.65vw,19px); }
+    .copy.active .kicker { animation:enter .35s ease 1.8s forwards; }
+    .meter { position:absolute; bottom:24%; left:50%; display:flex; align-items:center; gap:11px; height:32px; transform:translateX(-50%); }
+    .meter i { width:14px; height:9px; border-radius:3px; background:#aaadb2; }
+    .playing .meter i { animation:beat .5s ease-in-out infinite alternate; }
+    .playing .meter i:nth-child(2) { animation-delay:.125s; background:#2a4f85; }
+    .playing .meter i:nth-child(3) { animation-delay:.25s; }
+    .playing .meter i:nth-child(4) { animation-delay:.375s; background:var(--red); }
+    .playing .meter i:nth-child(5) { animation-delay:.05s; }
+    @keyframes beat { to { height:29px; } }
+    .timeline { position:absolute; left:4.8%; right:4.8%; bottom:10%; height:3px; background:#d0d1ce; }
+    .progress { width:0; height:100%; background:var(--red); }
+    .progress::after { content:""; float:right; width:13px; height:13px; margin-top:-5px; border-radius:50%; background:var(--red); }
+    .playing .progress { animation:run 30s linear forwards; }
+    @keyframes run { to { width:100%; } }
+    .footer { position:absolute; bottom:4%; color:#6b6d72; font-size:clamp(8px,1.1vw,13px); }
+    .clock { right:4.8%; }
+    .controls { display:flex; align-items:center; gap:16px; margin-top:16px; }
+    button { border:0; border-radius:99px; padding:12px 22px; color:white; background:var(--red); font:inherit; font-weight:700; cursor:pointer; }
+    button:hover { background:#a91025; } button:focus-visible { outline:3px solid #25282e; outline-offset:3px; }
+    .hint { color:#575a61; font-size:13px; }
+    audio { display:block; width:min(100%,440px); height:34px; margin:13px 0 0; }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="screen" id="screen" aria-label="CHOSUN.COM 30초 키네틱 타이포그래피 홍보 영상">
+      <div class="topline"></div>
+      <header><div class="brand">CHOSUN.COM</div><div class="sections">뉴스&nbsp; · &nbsp;오피니언&nbsp; · &nbsp;인사이트</div><div class="live">LIVE&nbsp; · &nbsp;TODAY</div></header>
+      <div class="ticker"><span class="tag">TODAY</span><span>정치&nbsp;&nbsp; 경제&nbsp;&nbsp; 사회&nbsp;&nbsp; 국제&nbsp;&nbsp; 스포츠&nbsp;&nbsp; 문화</span></div>
+      <article class="copy" id="copy" aria-live="polite">
+        <p class="index" id="index">01</p><h1 id="headline">지금, 세상은</h1><div class="accent"></div>
+        <div class="sub" id="sub">어디로 움직일까?</div><p class="kicker" id="kicker">오늘의 흐름을 여는 첫 장면</p>
+      </article>
+      <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="timeline"><div class="progress" id="progress"></div></div>
+      <div class="footer">조선닷컴&nbsp; | &nbsp;세상을 읽는 빠른 시작</div><div class="footer clock" id="clock">00:00</div>
+    </section>
+    <div class="controls"><button id="start" type="button">영상과 음악 재생</button><span class="hint">30초 · 가로 16:9 · 120 BPM</span></div>
+    <audio id="audio" controls preload="metadata" src="chosun_promo_music.wav" aria-label="오리지널 120 BPM 배경음악"></audio>
+  </main>
+  <script>
+    const scenes = [
+      ['지금, 세상은','어디로 움직일까?','오늘의 흐름을 여는 첫 장면'],
+      ['속보부터 깊이 있는 분석까지','뉴스의 맥락을 한눈에','빠른 소식, 넓은 시야'],
+      ['정치 · 경제 · 사회 · 국제','오늘을 움직이는 모든 이야기','관심 있는 분야를 한곳에서'],
+      ['스포츠와 문화, 라이프까지','관심의 지도를 더 넓게','매일의 발견을 더 다채롭게'],
+      ['빠르게. 정확하게. 다채롭게.','당신의 하루에 필요한 뉴스','새로운 시선으로 읽는 오늘'],
+      ['다음 장면이 궁금하다면','조선닷컴에서 만나세요','CHOSUN.COM  ·  오늘의 뉴스, 지금 시작']
+    ];
+    const screen=document.querySelector('#screen'), copy=document.querySelector('#copy'), audio=document.querySelector('#audio');
+    function scene(i) {
+      copy.classList.remove('active'); void copy.offsetWidth;
+      document.querySelector('#index').textContent=String(i+1).padStart(2,'0');
+      document.querySelector('#headline').textContent=scenes[i][0];
+      document.querySelector('#sub').textContent=scenes[i][1];
+      document.querySelector('#kicker').textContent=scenes[i][2];
+      copy.classList.add('active');
+    }
+    document.querySelector('#start').addEventListener('click',async()=>{
+      clearInterval(window.sceneTimer); clearTimeout(window.endTimer);
+      audio.currentTime=0; await audio.play();
+      screen.classList.remove('playing'); void screen.offsetWidth; screen.classList.add('playing');
+      scene(0); let i=1; window.sceneTimer=setInterval(()=>{ if(i<scenes.length) scene(i++); },5000);
+      const t0=performance.now();
+      function tick(now){const elapsed=Math.min(30,(now-t0)/1000); document.querySelector('#clock').textContent=`00:${String(Math.floor(elapsed)).padStart(2,'0')}`; if(elapsed<30) requestAnimationFrame(tick); else {clearInterval(window.sceneTimer);screen.classList.remove('playing');}}
+      requestAnimationFrame(tick); window.endTimer=setTimeout(()=>{audio.pause();},30000);
+    });
+  </script>
+</body>
+</html>
+
