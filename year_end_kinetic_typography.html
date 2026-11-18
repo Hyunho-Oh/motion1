@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1930">
+  <title>한 해의 끝에 — 연말 키네틱 타이포그래피</title>
+  <style>
+    :root { color-scheme: dark; --gold: #f5d79b; --ink: #0b1930; }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px;
+      background: radial-gradient(ellipse at 50% 35%, #1b2d49 0, #101e36 42%, #080f20 100%);
+      color: #f7f0e2; font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    }
+    .layout { width: min(100%, 460px); }
+    .stage {
+      position: relative; width: 100%; aspect-ratio: 9 / 16; overflow: hidden;
+      isolation: isolate; background: linear-gradient(180deg, #09152a, #11213b);
+      box-shadow: 0 24px 90px #0009; border: 1px solid #d9bd8155;
+    }
+    .stage::before { content: ""; position: absolute; inset: 12% 12%; z-index: -1;
+      background: radial-gradient(ellipse, #d3a95316, transparent 68%); filter: blur(16px); }
+    .rail { position: absolute; top: 19%; bottom: 19%; width: 1px; background: #d9bd8155; }
+    .rail.left { left: 9.6%; } .rail.right { right: 9.6%; }
+    .ornament { position: absolute; top: 22%; left: 50%; width: 1px; height: 42px; background: #f5d79b88; }
+    .ornament::before { content: ""; position: absolute; left: -5px; top: -6px; width: 11px; height: 11px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 24px #f4cf79; }
+    .snow, .lights { position: absolute; inset: 0; pointer-events: none; }
+    .flake { position: absolute; top: -8%; width: var(--size); height: var(--size); border-radius: 50%;
+      left: var(--x); background: #e7efff; opacity: var(--alpha); animation: fall var(--time) linear var(--delay) infinite; }
+    @keyframes fall { to { transform: translate3d(var(--drift), 115vh, 0); } }
+    .light { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #f6cf83;
+      left: var(--x); top: var(--y); opacity: .45; animation: twinkle 2.8s ease-in-out var(--delay) infinite alternate; }
+    @keyframes twinkle { to { opacity: .95; box-shadow: 0 0 12px 2px #efc77899; } }
+    .copy { position: absolute; inset: 30% 8% auto; text-align: center; }
+    .number { margin: 0 0 38px; color: #e8c98c; font-size: 12px; letter-spacing: .25em; }
+    h1 { margin: 0; color: #ffefca; font-size: clamp(26px, 8.4vw, 42px); line-height: 1.45; letter-spacing: .035em; font-weight: 700; }
+    .subtitle { margin: 22px 0 0; color: #e2e7ef; font-size: clamp(16px, 4.8vw, 24px); line-height: 1.5; letter-spacing: .04em; }
+    .rule { height: 2px; width: 0; margin: 40px auto 0; background: #e7bd75; transition: width .55s ease; }
+    .copy.show .rule { width: 136px; }
+    .copy.enter { animation: reveal .65s cubic-bezier(.2,.75,.2,1) both; }
+    .copy.leave { animation: vanish .28s ease both; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes vanish { to { opacity: 0; transform: translateY(-12px); } }
+    .closing { display: none; margin-top: 46px; color: var(--gold); font-size: 17px; letter-spacing: .08em; }
+    .closing small { display: block; margin-top: 30px; color: #f2eadb; font-size: 12px; letter-spacing: .2em; }
+    .copy.final .closing { display: block; }
+    .footer { position: absolute; bottom: 9%; left: 0; right: 0; text-align: center; color: #c6cfdd99; font-size: 9px; letter-spacing: .17em; }
+    .controls { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+    button { border: 1px solid #d9bd8177; border-radius: 999px; padding: 10px 18px; color: #f5e6c3; background: #14233b; font: inherit; cursor: pointer; }
+    button:hover { background: #203452; } button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .hint { color: #cbd3dfb0; font-size: 12px; }
+    audio { width: 100%; height: 34px; margin-top: 10px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <section class="stage" aria-label="한 해의 끝에, 10초 연말 키네틱 타이포그래피">
+      <div class="snow" aria-hidden="true"></div><div class="lights" aria-hidden="true"></div>
+      <span class="rail left"></span><span class="rail right"></span><span class="ornament"></span>
+      <div class="copy" id="copy" aria-live="polite">
+        <p class="number" id="number">01</p>
+        <h1 id="headline">한 해의 끝에</h1>
+        <p class="subtitle" id="subtitle">조용히 내려앉는 마음</p>
+        <div class="rule"></div>
+        <div class="closing">새해에도, 따뜻하게<small>MERRY &amp; BRIGHT</small></div>
+      </div>
+      <div class="footer">DECEMBER&nbsp; · &nbsp;A QUIET WISH</div>
+    </section>
+    <div class="controls">
+      <button id="replay" type="button">다시 재생</button>
+      <span class="hint">10초 · 세로 9:16</span>
+    </div>
+    <audio controls preload="metadata" src="year_end_carol.wav" aria-label="캐럴풍 배경음악"></audio>
+  </main>
+  <script>
+    const scenes = [
+      ['한 해의 끝에', '조용히 내려앉는 마음'],
+      ['조금 느려진', '나의 걸음'],
+      ['창밖엔 첫눈', '방 안엔 작은 불빛'],
+      ['고마웠던 순간들이', '하나둘 떠오르고'],
+      ['다가오는 새해에도', '우리의 온기가 계속되길']
+    ];
+    const copy = document.querySelector('#copy');
+    const number = document.querySelector('#number');
+    const headline = document.querySelector('#headline');
+    const subtitle = document.querySelector('#subtitle');
+    let timer;
+    function showScene(index) {
+      copy.className = 'copy';
+      number.textContent = String(index + 1).padStart(2, '0');
+      headline.textContent = scenes[index][0];
+      subtitle.textContent = scenes[index][1];
+      if (index === scenes.length - 1) copy.classList.add('final');
+      requestAnimationFrame(() => copy.classList.add('enter', 'show'));
+    }
+    function play() {
+      clearInterval(timer);
+      let i = 0;
+      showScene(i);
+      timer = setInterval(() => {
+        i = (i + 1) % scenes.length;
+        showScene(i);
+      }, 2000);
+    }
+    document.querySelector('#replay').addEventListener('click', play);
+    play();
+    const snow = document.querySelector('.snow');
+    for (let i = 0; i < 48; i++) {
+      const f = document.createElement('i'); f.className = 'flake';
+      const size = 1 + (i % 3);
+      f.style.setProperty('--size', `${size}px`);
+      f.style.setProperty('--x', `${(i * 113 + 29) % 100}%`);
+      f.style.setProperty('--time', `${9 + (i % 8)}s`);
+      f.style.setProperty('--delay', `${-(i % 15)}s`);
+      f.style.setProperty('--drift', `${Math.sin(i * 3) * 38}px`);
+      f.style.setProperty('--alpha', `${.45 + (i % 4) * .12}`);
+      snow.append(f);
+    }
+    const lights = document.querySelector('.lights');
+    for (let i = 0; i < 22; i++) {
+      const dot = document.createElement('i'); dot.className = 'light';
+      dot.style.setProperty('--x', `${i % 2 ? 3 + (i * 7) % 9 : 88 + (i * 5) % 9}%`);
+      dot.style.setProperty('--y', `${8 + (i * 37) % 84}%`);
+      dot.style.setProperty('--delay', `${-(i % 8) * .4}s`);
+      lights.append(dot);
+    }
+  </script>
+</body>
+</html>
+
